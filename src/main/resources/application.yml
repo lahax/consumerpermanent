@@ -1,0 +1,14 @@
+server:
+  port: 8083
+spring:
+  kafka:
+    consumer:
+      #bootstrap-servers: INTERNAL://kafkapermanent:19092,EXTERNAL://kafkapermanent:9092,DOCKER://kafkapermanent:29092
+      bootstrap-servers: localhost:9092,127.0.0.1:9092
+      group-id: "json-consumer-permanent"
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    logging:
+      level:
+      org.apache.kafka: DEBUG
