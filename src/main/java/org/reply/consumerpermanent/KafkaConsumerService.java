@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @EnableConfigurationProperties
 public class KafkaConsumerService {
 
-    @KafkaListener(topics = {"Event", "Diagnostics", "digic_event", "digic_diagnostics"}, groupId="json-consumer-permanent")
+    @KafkaListener(topics = {"Event", "Diagnostics", "digic_event", "digic_diagnostics"}, groupId="consumer-permanent")
     public void listen(ConsumerRecord<String, String> record){
         String topic = record.topic();
         String value = record.value();
