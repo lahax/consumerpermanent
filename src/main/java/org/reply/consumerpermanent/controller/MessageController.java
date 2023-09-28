@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,12 +23,16 @@ public class MessageController {
 
 
     @GetMapping("/getMessage")
-    public ResponseEntity<List<Message>> getMessage() {
+    public ResponseEntity<List<Message>> getMessage() throws InterruptedException {
         try {
-            return ResponseEntity.ok(kafkaConsumerService.getMessageList());
+            List<Message> messageListCopy = new ArrayList<>(kafkaConsumerService.getMessageList());
+            return ResponseEntity.ok(messageListCopy);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } finally {
+            // Clear the original list after sending the response
+            kafkaConsumerService.clearMessageList();
         }
     }
 }

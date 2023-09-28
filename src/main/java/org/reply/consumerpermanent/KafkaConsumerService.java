@@ -42,11 +42,16 @@ public class KafkaConsumerService {
             System.out.println("From platform: "+ groupId + " From topic: " + topic + " posId: " + posId + ", useCase: " + useCase + " scopeId: " + scopeId + " clientId: " + clientId + " payload: " + payload + " receivedOn: " + receivedOn + " channel: " + channel + " posId_B: " + posIdb + " posId_A: " + posIda + " posGeo: " + posGeo + " account: " + account);*/
             Message message = new Message(piattaforma, topic, payload);
             messageList.add(message);
+            System.out.println(message.payload.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     public List<Message> getMessageList() {
         return messageList;
+    }
+
+    public void clearMessageList() throws InterruptedException {
+        messageList.clear(); //svuotare lista dopo l'invio al Core
     }
 }
