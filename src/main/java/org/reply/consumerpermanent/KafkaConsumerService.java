@@ -17,13 +17,13 @@ import java.util.List;
 @EnableConfigurationProperties
 public class KafkaConsumerService {
 
-    private List<Message> messageList = new ArrayList<>();
+    public static List<Message> messageList = new ArrayList<>();
 
     @KafkaListener(topics = {"Event", "Diagnostics", "digic_event", "digic_diagnostics"}, groupId="consumer-permanent")
     public void listen(ConsumerRecord<String, String> record){
         String topic = record.topic();
-        String value = record.value();
-        String groupId = "Permanent";
+        String payload = record.value();
+        String piattaforma = "Permanent";
         try {
             /*ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(value);
@@ -40,7 +40,7 @@ public class KafkaConsumerService {
             String account = jsonNode.get("account").toString();
 
             System.out.println("From platform: "+ groupId + " From topic: " + topic + " posId: " + posId + ", useCase: " + useCase + " scopeId: " + scopeId + " clientId: " + clientId + " payload: " + payload + " receivedOn: " + receivedOn + " channel: " + channel + " posId_B: " + posIdb + " posId_A: " + posIda + " posGeo: " + posGeo + " account: " + account);*/
-            Message message = new Message(groupId, topic, value);
+            Message message = new Message(piattaforma, topic, payload);
             messageList.add(message);
         } catch (Exception e) {
             e.printStackTrace();

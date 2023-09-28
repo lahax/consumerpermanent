@@ -1,10 +1,14 @@
 package org.reply.consumerpermanent;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Message {
-    String platform;
+    String piattaforma;
     String topic;
-    String value; //il payload arrrivato senza nessuna normalizzazione
+    String payload; //il payload arrrivato senza nessuna normalizzazione
 }
