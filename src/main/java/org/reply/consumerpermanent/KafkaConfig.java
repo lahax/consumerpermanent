@@ -40,6 +40,8 @@ public class KafkaConfig {
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, valueDeserializer);
         //props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "*"); // Allow deserialization of all packages
+        props.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, 10 * 1024 * 1024);  // 10MB
+        props.put(ConsumerConfig.FETCH_MAX_BYTES_CONFIG, 15 * 1024 * 1024);  // 15MB (un po' di margine)
         return props;
     }
 

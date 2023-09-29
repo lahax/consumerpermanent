@@ -3,6 +3,7 @@ package org.reply.consumerpermanent.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.reply.consumerpermanent.KafkaConsumerService;
+import org.reply.consumerpermanent.KafkaProducerService;
 import org.reply.consumerpermanent.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,8 @@ public class MessageController {
     private static final Logger log = LogManager.getLogger();
     @Autowired
     private KafkaConsumerService kafkaConsumerService;
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
 
 
     @GetMapping("/getMessage")
@@ -30,9 +33,22 @@ public class MessageController {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        } finally {
-            // Clear the original list after sending the response
+        }
+    }
+
+    @PostMapping("/produceMessage")
+    public ResponseEntity<String> send(@RequestBody String message) {
+        kafkaProducerService.send(message);
+        return ResponseEntity.ok("Message sent successfully");
+    }
+
+
+    @DeleteMapping("/deleteMessageList")
+    public void deleteMessageList() throws InterruptedException {
+        try {
             kafkaConsumerService.clearMessageList();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
     }
 }
