@@ -15,18 +15,21 @@ import java.util.List;
 public class KafkaConsumerService {
 
     public static List<Message> messageList = new ArrayList<>();
+    private boolean isListening = false;
 
     @KafkaListener(topics = {"Event", "Diagnostics", "digic_event", "digic_diagnostics"}, groupId="consumer-permanent")
     public void listen(ConsumerRecord<String, String> record){
-        String topic = record.topic();
-        String payload = record.value();
-        String piattaforma = "Permanent";
-        try {
-            Message message = new Message(piattaforma, topic, payload);
-            messageList.add(message);
-            System.out.println(message.payload.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(isListening){
+            String topic = record.topic();
+            String payload = record.value();
+            String piattaforma = "Permanent";
+            try {
+                Message message = new Message(piattaforma, topic, payload);
+                messageList.add(message);
+                System.out.println(message.payload.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
     public List<Message> getMessageList() {
@@ -35,5 +38,11 @@ public class KafkaConsumerService {
 
     public void clearMessageList() throws InterruptedException {
         messageList.clear(); //svuotare lista dopo l'invio al Core
+    }
+    public void startListening() {
+        isListening = true;
+    }
+    public void stopListening() {
+        isListening = false;
     }
 }

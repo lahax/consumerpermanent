@@ -65,4 +65,21 @@ public class MessageController {
             log.error(e.getMessage(), e);
         }
     }
+
+    @GetMapping("/status")
+    public ResponseEntity<String> getStatus() {
+        return ResponseEntity.ok("Permanent Consumer Status: OK");
+    }
+
+    @PostMapping("/start")
+    public ResponseEntity<String> start() {
+        kafkaConsumerService.startListening();
+        return ResponseEntity.ok("Permanent Consumer Started");
+    }
+
+    @PostMapping("/stop")
+    public ResponseEntity<String> stop() {
+        kafkaConsumerService.stopListening();
+        return ResponseEntity.ok("Permanent Consumer Stopped");
+    }
 }
