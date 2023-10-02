@@ -11,8 +11,8 @@
 	<groupId>org.reply</groupId>
 	<artifactId>message-comparison-consumer-permanent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>consumer-permanent</name>
-	<description>Demo project Kafka Consumer Piattaforma 2.0</description>
+	<name>message-comparison-consumer-permanent</name>
+	<description>Message Comparison Kafka Consumer Piattaforma 2.0</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
