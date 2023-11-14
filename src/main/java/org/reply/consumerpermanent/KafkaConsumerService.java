@@ -17,22 +17,18 @@ public class KafkaConsumerService {
     public static List<Message> messageList = new ArrayList<>();
     private boolean isListening = false;
 
-    @KafkaListener(topics = {"Event", "Diagnostics", "digic_event", "digic_diagnostics"}, groupId="consumer-permanent")
+    @KafkaListener(topics = {"event", "diagnostics", "digic_event", "digic_diagnostics"}, groupId="consumer-permanent")
     public void listen(ConsumerRecord<String, String> record){
         if(isListening){
             String topic = record.topic();
             String payload = record.value();
             String piattaforma = "Permanent";
-            String key = record.key();
-            Long createTime= record.timestamp();
             String fixedPayload = payload.replace("${metric.value}", "\"${metric.value}\"");
 
             try {
-                if(!key.contains("Prysmian")){
-                    Message message = new Message(piattaforma, topic, fixedPayload, key, createTime);
+                    Message message = new Message(piattaforma, topic, fixedPayload);
                     messageList.add(message);
-                    System.out.println(message);
-                }
+                    System.out.println(message.payload.toString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
